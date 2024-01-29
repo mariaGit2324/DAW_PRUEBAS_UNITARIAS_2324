@@ -38,11 +38,12 @@ namespace GestionBancariaTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidarReintegroLimite()
         {
             double saldoInicial = 500;
             double reintegro = 0;
-            double saldoEsperado = 500;
+            double saldoEsperado = saldoInicial - reintegro;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
@@ -53,11 +54,12 @@ namespace GestionBancariaTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidarReintegroNegativo()
         {
             double saldoInicial = 500;
             double reintegro = -50;
-            double saldoEsperado = 500;
+            double saldoEsperado = saldoInicial - reintegro;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
@@ -68,11 +70,12 @@ namespace GestionBancariaTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidarReintegroMayorSaldo()
         {
             double saldoInicial = 500;
             double reintegro = 750;
-            double saldoEsperado = 500;
+            double saldoEsperado = saldoInicial - reintegro;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
@@ -83,11 +86,12 @@ namespace GestionBancariaTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidarIngresoNegativo()
         {
             double saldoInicial = 1200;
             double cantidad = -500;
-            double saldoEsperado = 1200;
+            double saldoEsperado = saldoInicial + cantidad;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
@@ -98,11 +102,12 @@ namespace GestionBancariaTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidarIngresoLimite()
         {
             double saldoInicial = 1200;
             double cantidad = 0;
-            double saldoEsperado = 1200;
+            double saldoEsperado = saldoInicial + cantidad;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
