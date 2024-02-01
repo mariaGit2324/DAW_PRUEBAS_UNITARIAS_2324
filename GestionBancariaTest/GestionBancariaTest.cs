@@ -43,30 +43,24 @@ namespace GestionBancariaTest
         {
             double saldoInicial = 500;
             double reintegro = 0;
-            double saldoEsperado = saldoInicial - reintegro;
+            double saldoFinal = saldoInicial - reintegro;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
             miApp.RealizarReintegro(reintegro);
-
-            Assert.AreEqual(saldoEsperado, miApp.ObtenerSaldo(), 0.001, "Se produjo un error al realizar el reintegro, saldo" + "incorrecto.");
-
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidarReintegroNegativo()
         {
-            double saldoInicial = 500;
-            double reintegro = -50;
-            double saldoEsperado = saldoInicial - reintegro;
+            double saldoInicial = 1000;
+            double reintegro = -250;
+            double saldoFinal = saldoInicial - reintegro;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
             miApp.RealizarReintegro(reintegro);
-
-            Assert.AreEqual(saldoEsperado, miApp.ObtenerSaldo(), 0.001, "Se produjo un error al realizar el reintegro, saldo" + "incorrecto.");
-
         }
 
         [TestMethod]
@@ -75,14 +69,11 @@ namespace GestionBancariaTest
         {
             double saldoInicial = 500;
             double reintegro = 750;
-            double saldoEsperado = saldoInicial - reintegro;
+            double saldoFinal = saldoInicial - reintegro;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
             miApp.RealizarReintegro(reintegro);
-
-            Assert.AreEqual(saldoEsperado, miApp.ObtenerSaldo(), 0.001, "Se produjo un error al realizar el reintegro, saldo" + "incorrecto.");
-
         }
 
         [TestMethod]
@@ -91,14 +82,11 @@ namespace GestionBancariaTest
         {
             double saldoInicial = 1200;
             double cantidad = -500;
-            double saldoEsperado = saldoInicial + cantidad;
+            double saldoFinal = saldoInicial + cantidad;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
             miApp.RealizarIngreso(cantidad);
-
-            Assert.AreEqual(saldoEsperado, miApp.ObtenerSaldo(), 0.001, "Se produjo un error al realizar el ingreso, saldo" + "incorrecto.");
-
         }
 
         [TestMethod]
@@ -107,14 +95,11 @@ namespace GestionBancariaTest
         {
             double saldoInicial = 1200;
             double cantidad = 0;
-            double saldoEsperado = saldoInicial + cantidad;
+            double saldoFinal = saldoInicial + cantidad;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
             miApp.RealizarIngreso(cantidad);
-
-            Assert.AreEqual(saldoEsperado, miApp.ObtenerSaldo(), 0.001, "Se produjo un error al realizar el ingreso, saldo" + "incorrecto.");
-
         }
     }
 }
