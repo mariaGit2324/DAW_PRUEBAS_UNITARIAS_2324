@@ -12,9 +12,10 @@ namespace GestionBancariaAppNS
 {
     public partial class GestionBancariaApp : Form
     {
-        private double saldo;  
-        const int ERR_CANTIDAD_NO_VALIDA = 1;
-        const int ERR_SALDO_INSUFICIENTE = 2;
+        private double saldo;
+        public const String ERR_CANTIDAD_NO_VALIDA = "Cantidad no válida";
+        public const String ERR_SALDO_INSUFICIENTE = "Saldo insuficiente";
+        public const String ERR_SALDO_LIMITE = "Cantidad errónea";
 
         public GestionBancariaApp(double saldo = 0)
         {
@@ -29,19 +30,24 @@ namespace GestionBancariaAppNS
 
         public double ObtenerSaldo() { return saldo; }
 
-        public int RealizarReintegro(double cantidad) 
+        public int RealizarReintegro(double cantidad)
         {
-            if (cantidad <= 0)
-                throw new ArgumentOutOfRangeException("La cantidad indicada no es válida.");
+            if (cantidad < 0)
+                throw new ArgumentOutOfRangeException(ERR_CANTIDAD_NO_VALIDA);
+            if (cantidad == 0)
+                throw new ArgumentOutOfRangeException(ERR_SALDO_LIMITE);
             if (saldo < cantidad)
-                throw new ArgumentOutOfRangeException("Saldo Insuficiente.");
+                throw new ArgumentOutOfRangeException(ERR_SALDO_INSUFICIENTE);
             saldo -= cantidad;
             return 0;
         }
 
-        public int RealizarIngreso(double cantidad) {
-            if (cantidad <= 0)
-                throw new ArgumentOutOfRangeException("La cantidad indicada no es válida.");
+        public int RealizarIngreso(double cantidad)
+        {
+            if (cantidad < 0)
+                throw new ArgumentOutOfRangeException(ERR_CANTIDAD_NO_VALIDA);
+            if (cantidad == 0)
+                throw new ArgumentOutOfRangeException(ERR_SALDO_LIMITE);
             saldo += cantidad;
             return 0;
         }
@@ -51,23 +57,41 @@ namespace GestionBancariaAppNS
             double cantidad = Convert.ToDouble(txtCantidad.Text); // Cogemos la cantidad del TextBox y la pasamos a número
             if (rbReintegro.Checked)
             {
-                int respuesta = RealizarReintegro(cantidad);
-                if (respuesta == ERR_SALDO_INSUFICIENTE)
-                    MessageBox.Show("No se ha podido realizar la operación (¿Saldo insuficiente?)");
-                else
-                if (respuesta == ERR_CANTIDAD_NO_VALIDA)
-                    MessageBox.Show("Cantidad no válida, sólo se admiten cantidades positivas.");
-                else
-                    MessageBox.Show("Transacción realizada.");
+                try
+                {
+                    RealizarReintegro(cantidad);
+                    MessageBox.Show("Transacción realiza");
+                }
+                catch (Exception error)
+                {
+                    if (error.Message.Contains(ERR_SALDO_INSUFICIENTE))
+                        MessageBox.Show("No se ha podido realizar la operación (¿Saldo insuficiente?)");
+                    else
+                    if (error.Message.Contains(ERR_CANTIDAD_NO_VALIDA))
+                        MessageBox.Show("Cantidad no válida, sólo se admiten cantidades positivas.");
+                    else
+                    if (error.Message.Contains(ERR_SALDO_LIMITE))
+                        MessageBox.Show("Cantidad no válida, sólo se admiten cantidades mayores que 0.");
+                }
 
             }
-            else {
-                if (RealizarIngreso(cantidad) == ERR_CANTIDAD_NO_VALIDA)
-                    MessageBox.Show("Cantidad no válida, sólo se admiten cantidades positivas.");
-                else
-                    MessageBox.Show("Transacción realizada.");
+            else
+            {
+                try
+                {
+                    RealizarIngreso(cantidad);
+                    MessageBox.Show("Transacción realiza");
+                }
+                catch (Exception error)
+                {
+                    if (error.Message.Contains(ERR_CANTIDAD_NO_VALIDA))
+                        MessageBox.Show("Cantidad no válida, sólo se admiten cantidades positivas.");
+                    else
+                    if (error.Message.Contains(ERR_SALDO_LIMITE))
+                        MessageBox.Show("Cantidad no válida, sólo se admiten cantidades mayores que 0.");
+                }
             }
-           txtSaldo.Text = ObtenerSaldo().ToString();
+            txtSaldo.Text = ObtenerSaldo().ToString();
         }
     }
 }
