@@ -8,12 +8,13 @@ namespace GestionBancariaTest
     public class GestionBancariaTest
     {
         [TestMethod]
-        public void ValidarReintegro()
+        [DataRow(1000, 250, 750)]
+        [DataRow(1000, 1000, 0)]
+        [DataRow(1000, 1, 999)]
+        [DataRow(1000, 500, 500)]
+        public void ValidarReintegroMMA2324(double saldoInicial, double reintegro, double saldoEsperado)
         {
-            double saldoInicial = 1000;
-            double reintegro = 250;
-            double saldoEsperado = 750;
-
+           
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
             miApp.RealizarReintegro(reintegro);
@@ -23,11 +24,12 @@ namespace GestionBancariaTest
         }
 
         [TestMethod]
-        public void ValidarIngreso()
+        [DataRow(1000, 250, 1250)]
+        [DataRow(1000, 1, 1001)]
+        [DataRow(0, 500, 500)]
+        [DataRow(500, 500, 1000)]
+        public void ValidarIngresoMMA2324(double saldoInicial, double cantidad, double saldoEsperado)
         {
-            double saldoInicial = 1000;
-            double cantidad = 300;
-            double saldoEsperado = 1300;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
@@ -38,12 +40,10 @@ namespace GestionBancariaTest
         }
 
         [TestMethod]
-        public void ValidarReintegroLimite()
+        [DataRow(500, 0, 0)]
+        public void ValidarReintegroLimiteMMA2324(double saldoInicial, double reintegro, double saldoFinal)
         {
-            double saldoInicial = 500;
-            double reintegro = 0;
-            double saldoFinal = saldoInicial - reintegro;
-
+  
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
             try
@@ -59,11 +59,9 @@ namespace GestionBancariaTest
         }
 
         [TestMethod]
-        public void ValidarReintegroNegativo()
+        [DataRow(1000, -250, 1250)]
+        public void ValidarReintegroNegativoMMA2324(double saldoInicial, double reintegro, double saldoFinal)
         {
-            double saldoInicial = 1000;
-            double reintegro = -250;
-            double saldoFinal = saldoInicial - reintegro;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
             try
@@ -79,11 +77,9 @@ namespace GestionBancariaTest
         }
 
         [TestMethod]
-        public void ValidarReintegroMayorSaldo()
+        [DataRow(500, 750, -250)]
+        public void ValidarReintegroMayorSaldoMMA2324(double saldoInicial, double reintegro, double saldoFinal)
         {
-            double saldoInicial = 500;
-            double reintegro = 750;
-            double saldoFinal = saldoInicial - reintegro;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
@@ -100,11 +96,9 @@ namespace GestionBancariaTest
         }
 
         [TestMethod]
-        public void ValidarIngresoNegativo()
+        [DataRow(1200, -500, 700)]
+        public void ValidarIngresoNegativoMMA2324(double saldoInicial, double cantidad, double saldoFinal)
         {
-            double saldoInicial = 1200;
-            double cantidad = -500;
-            double saldoFinal = saldoInicial + cantidad;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
@@ -121,11 +115,9 @@ namespace GestionBancariaTest
         }
 
         [TestMethod]
-        public void ValidarIngresoLimite()
+        [DataRow(1200, 0, 1200)]
+        public void ValidarIngresoLimiteMMA2324(double saldoInicial, double cantidad, double saldoFinal)
         {
-            double saldoInicial = 1200;
-            double cantidad = 0;
-            double saldoFinal = saldoInicial + cantidad;
 
             GestionBancariaApp miApp = new GestionBancariaApp(saldoInicial);
 
